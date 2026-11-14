@@ -23,7 +23,7 @@ jobs:
       run:
         working-directory: go
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-go@v5
         with:
           go-version: "1.22"
@@ -43,7 +43,7 @@ jobs:
       run:
         working-directory: crates/nimbus2-core
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
       - name: Run Cargo Tests
         run: cargo test --verbose
@@ -54,7 +54,7 @@ jobs:
     name: Python Global Proxy Syntax Audit
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
