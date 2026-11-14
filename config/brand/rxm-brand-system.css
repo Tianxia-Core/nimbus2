@@ -1,0 +1,316 @@
+/**
+ * RXM Brand System - CSS Implementation
+ * Complete color scheme and styling following RXM ecosystem design
+ */
+
+:root {
+  /* Mystical Purple Series */
+  --mystical-purple: #6B46C1;
+  --mystical-purple-light: #8B5CF6;
+  --mystical-purple-dark: #553C9A;
+
+  /* Holographic Colors */
+  --holographic-cyan: #00F5FF;
+  --holographic-magenta: #FF00FF;
+  --matrix-green: #00FF41;
+
+  /* Revenue Colors */
+  --gold: #FFD700;
+  --gold-light: #FFED4E;
+  --gold-dark: #B8860B;
+
+  /* Neutrals */
+  --deep-space: #0F0F23;
+  --space-light: #1A1A2E;
+  --mystical-gray: #16213E;
+  --pure-white: #FFFFFF;
+
+  /* Semantic Colors */
+  --success: #00FF41;
+  --warning: #FFD700;
+  --error: #FF6B6B;
+  --info: #00F5FF;
+
+  /* Gradients */
+  --gradient-primary-mystical: linear-gradient(135deg, #6B46C1 0%, #8B5CF6 50%, #00F5FF 100%);
+  --gradient-holographic: linear-gradient(45deg, #00F5FF 0%, #FF00FF 33%, #00FF41 66%, #FFD700 100%);
+  --gradient-revenue: linear-gradient(135deg, #FFD700 0%, #FF6B6B 50%, #8B5CF6 100%);
+  --gradient-dark-mystical: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%);
+
+  /* Typography & Spacing */
+  --font-family-primary: 'Inter', 'Segoe UI', sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+
+  /* Spacing System */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* Transitions */
+  --transition-fast: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Styles */
+body {
+  background: var(--deep-space);
+  color: var(--pure-white);
+  font-family: var(--font-family-primary);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Component Styles Following RXM Brand System */
+
+/* Buttons */
+.btn {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.btn-primary {
+  background: var(--gradient-primary-mystical);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+  background: var(--space-light);
+  color: var(--holographic-cyan);
+  border: 1px solid var(--mystical-gray);
+}
+
+.btn-success {
+  background-color: var(--success);
+  color: var(--deep-space);
+}
+
+.btn-warning {
+  background-color: var(--warning);
+  color: var(--deep-space);
+}
+
+.btn-error {
+  background-color: var(--error);
+  color: white;
+}
+
+.btn-info {
+  background-color: var(--info);
+  color: var(--deep-space);
+}
+
+/* Cards */
+.card {
+  background: var(--space-light);
+  border: 1px solid var(--mystical-gray);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-normal);
+}
+
+.card-hoverable:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--mystical-purple-light);
+}
+
+/* Inputs */
+.input-field {
+  background: var(--mystical-gray);
+  border: 1px solid var(--mystical-gray);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: white;
+  width: 100%;
+  font-size: var(--font-size-base);
+  transition: var(--transition-fast);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--mystical-purple-light);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+}
+
+.input-field:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Navigation */
+.navbar {
+  background: var(--space-light);
+  border-bottom: 1px solid var(--mystical-gray);
+  padding: var(--spacing-md) var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-item {
+  color: var(--pure-white);
+  text-decoration: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.nav-item:hover {
+  background: var(--mystical-gray);
+  color: var(--holographic-cyan);
+}
+
+.nav-item.active {
+  background: var(--mystical-purple);
+  color: white;
+}
+
+/* Headers */
+.header-gradient {
+  background: var(--gradient-primary-mystical);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Status Indicators */
+.status-success {
+  color: var(--success);
+}
+
+.status-warning {
+  color: var(--warning);
+}
+
+.status-error {
+  color: var(--error);
+}
+
+.status-info {
+  color: var(--info);
+}
+
+/* Loading States */
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--mystical-gray);
+  border-top: 3px solid var(--mystical-purple);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Theme Variants */
+[data-theme="light"] {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F3F4F6;
+  --text-primary: #1F2937;
+  --text-secondary: #4B5563;
+  --border: #D1D5DB;
+}
+
+[data-theme="dark"] {
+  --bg-primary: var(--deep-space);
+  --bg-secondary: var(--space-light);
+  --text-primary: var(--pure-white);
+  --text-secondary: #D1D5DB;
+  --border: var(--mystical-gray);
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus Indicators */
+*:focus {
+  outline: 2px solid var(--holographic-cyan);
+  outline-offset: 2px;
+}

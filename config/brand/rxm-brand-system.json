@@ -1,0 +1,225 @@
+{
+  "brand": {
+    "name": "RXM Ecosystem Color Palette",
+    "version": "1.0.0",
+    "description": "Complete color system for mystical, high-performance UI"
+  },
+  "primary": {
+    "mystical_purple": {
+      "hex": "#6B46C1",
+      "rgb": "rgb(107, 70, 193)",
+      "hsl": "hsl(258, 48%, 52%)",
+      "usage": "Primary brand color, main CTAs, headers"
+    },
+    "mystical_purple_light": {
+      "hex": "#8B5CF6",
+      "rgb": "rgb(139, 92, 246)",
+      "hsl": "hsl(258, 89%, 66%)",
+      "usage": "Hover states, secondary elements"
+    },
+    "mystical_purple_dark": {
+      "hex": "#553C9A",
+      "rgb": "rgb(85, 60, 154)",
+      "hsl": "hsl(258, 44%, 42%)",
+      "usage": "Active states, pressed buttons"
+    }
+  },
+  "holographic": {
+    "cyan": {
+      "hex": "#00F5FF",
+      "rgb": "rgb(0, 245, 255)",
+      "hsl": "hsl(182, 100%, 50%)",
+      "usage": "Analytics, data streams, holographic accents"
+    },
+    "magenta": {
+      "hex": "#FF00FF",
+      "rgb": "rgb(255, 0, 255)",
+      "hsl": "hsl(300, 100%, 50%)",
+      "usage": "Holographic effects, mystical accents"
+    },
+    "matrix_green": {
+      "hex": "#00FF41",
+      "rgb": "rgb(0, 255, 65)",
+      "hsl": "hsl(135, 100%, 50%)",
+      "usage": "Content creation, success states"
+    }
+  },
+  "revenue": {
+    "gold": {
+      "hex": "#FFD700",
+      "rgb": "rgb(255, 215, 0)",
+      "hsl": "hsl(51, 100%, 50%)",
+      "usage": "Revenue metrics, financial success, premium features"
+    },
+    "gold_light": {
+      "hex": "#FFED4E",
+      "rgb": "rgb(255, 237, 78)",
+      "hsl": "hsl(54, 100%, 65%)",
+      "usage": "Hover states for gold elements"
+    },
+    "gold_dark": {
+      "hex": "#B8860B",
+      "rgb": "rgb(184, 134, 11)",
+      "hsl": "hsl(43, 89%, 38%)",
+      "usage": "Active states for gold elements"
+    }
+  },
+  "neutrals": {
+    "deep_space": {
+      "hex": "#0F0F23",
+      "rgb": "rgb(15, 15, 35)",
+      "hsl": "hsl(240, 40%, 10%)",
+      "usage": "Primary background, dark theme base"
+    },
+    "space_light": {
+      "hex": "#1A1A2E",
+      "rgb": "rgb(26, 26, 46)",
+      "hsl": "hsl(240, 28%, 14%)",
+      "usage": "Secondary background, cards"
+    },
+    "mystical_gray": {
+      "hex": "#16213E",
+      "rgb": "rgb(22, 33, 62)",
+      "hsl": "hsl(224, 48%, 16%)",
+      "usage": "Borders, dividers, subtle elements"
+    },
+    "pure_white": {
+      "hex": "#FFFFFF",
+      "rgb": "rgb(255, 255, 255)",
+      "hsl": "hsl(0, 0%, 100%)",
+      "usage": "Text on dark backgrounds, icons"
+    }
+  },
+  "applications": {
+    "analytics_engine": {
+      "primary": "#00F5FF",
+      "secondary": "#0080FF",
+      "accent": "#40E0D0",
+      "theme": "Data streams and flowing information"
+    },
+    "financial_sovereignty": {
+      "primary": "#FFD700",
+      "secondary": "#FFA500",
+      "accent": "#FF8C00",
+      "theme": "Wealth, prosperity, financial power"
+    },
+    "intelligence_command": {
+      "primary": "#8B5CF6",
+      "secondary": "#7C3AED",
+      "accent": "#6D28D9",
+      "theme": "AI consciousness, neural networks"
+    },
+    "content_authority": {
+      "primary": "#00FF41",
+      "secondary": "#32CD32",
+      "accent": "#228B22",
+      "theme": "Content creation, digital publishing"
+    },
+    "security_fortress": {
+      "primary": "#FF6B6B",
+      "secondary": "#FF4757",
+      "accent": "#FF3742",
+      "theme": "Protection, shields, security barriers"
+    },
+    "privacy_vault": {
+      "primary": "#4ECDC4",
+      "secondary": "#26D0CE",
+      "accent": "#00BCD4",
+      "theme": "Privacy protection, data security"
+    },
+    "communication_shield": {
+      "primary": "#45B7D1",
+      "secondary": "#3498DB",
+      "accent": "#2980B9",
+      "theme": "Secure communications, quantum encryption"
+    },
+    "protocol_core": {
+      "primary": "#96CEB4",
+      "secondary": "#7FCDCD",
+      "accent": "#5F9EA0",
+      "theme": "Blockchain protocols, consensus mechanisms"
+    },
+    "creator_studio": {
+      "primary": "#FFEAA7",
+      "secondary": "#FDCB6E",
+      "accent": "#E17055",
+      "theme": "Creative tools, asset management"
+    },
+    "developer_forge": {
+      "primary": "#DDA0DD",
+      "secondary": "#DA70D6",
+      "accent": "#BA55D3",
+      "theme": "Development tools, code creation"
+    },
+    "brand_forge": {
+      "primary": "#FF7675",
+      "secondary": "#FD79A8",
+      "accent": "#E84393",
+      "theme": "Brand management, marketing automation"
+    }
+  },
+  "gradients": {
+    "primary_mystical": {
+      "css": "linear-gradient(135deg, #6B46C1 0%, #8B5CF6 50%, #00F5FF 100%)",
+      "usage": "Primary buttons, hero sections"
+    },
+    "holographic": {
+      "css": "linear-gradient(45deg, #00F5FF 0%, #FF00FF 33%, #00FF41 66%, #FFD700 100%)",
+      "usage": "Holographic effects, mystical accents"
+    },
+    "revenue": {
+      "css": "linear-gradient(135deg, #FFD700 0%, #FF6B6B 50%, #8B5CF6 100%)",
+      "usage": "Revenue metrics, success indicators"
+    },
+    "dark_mystical": {
+      "css": "linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%)",
+      "usage": "Dark backgrounds, containers"
+    }
+  },
+  "semantic": {
+    "success": {
+      "hex": "#00FF41",
+      "usage": "Success messages, completed states"
+    },
+    "warning": {
+      "hex": "#FFD700",
+      "usage": "Warning messages, caution states"
+    },
+    "error": {
+      "hex": "#FF6B6B",
+      "usage": "Error messages, failed states"
+    },
+    "info": {
+      "hex": "#00F5FF",
+      "usage": "Information messages, neutral states"
+    }
+  },
+  "accessibility": {
+    "contrast_ratios": {
+      "aa_normal": "4.5:1",
+      "aa_large": "3:1",
+      "aaa_normal": "7:1",
+      "aaa_large": "4.5:1"
+    },
+    "compliant_combinations": [
+      {
+        "background": "#0F0F23",
+        "text": "#FFFFFF",
+        "ratio": "12.6:1",
+        "grade": "AAA"
+      },
+      {
+        "background": "#6B46C1",
+        "text": "#FFFFFF",
+        "ratio": "5.2:1",
+        "grade": "AA"
+      },
+      {
+        "background": "#FFD700",
+        "text": "#0F0F23",
+        "ratio": "11.8:1",
+        "grade": "AAA"
+      }
+    ]
+  }
+}

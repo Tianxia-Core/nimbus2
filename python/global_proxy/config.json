@@ -1,0 +1,35 @@
+{
+  "proxies": [
+    {
+      "id": "webshare-uk-1",
+      "name": "Webshare UK Residential",
+      "type": "http",
+      "host": "31.59.20.176",
+      "port": 6754,
+      "authentication": "ip",
+      "country": "GB",
+      "status": "active"
+    }
+  ],
+  "settings": {
+    "max_streams": 225,
+    "chunk_size_mb": 4,
+    "timeout_seconds": 10,
+    "retry_count": 10,
+    "retry_delay_seconds": 60,
+    "keepalive_interval_seconds": 30,
+    "target_countries": ["US", "UK", "DE", "BR", "IN", "JP", "AU", "FR", "CA", "ES"]
+  },
+  "country_configs": {
+    "US": {"gl": "us", "hl": "en", "tld": ".com"},
+    "UK": {"gl": "uk", "hl": "en", "tld": ".co.uk"},
+    "DE": {"gl": "de", "hl": "de", "tld": ".de"},
+    "BR": {"gl": "br", "hl": "pt", "tld": ".com.br"},
+    "IN": {"gl": "in", "hl": "en", "tld": ".in"},
+    "JP": {"gl": "jp", "hl": "ja", "tld": ".co.jp"},
+    "AU": {"gl": "au", "hl": "en", "tld": ".com.au"},
+    "FR": {"gl": "fr", "hl": "fr", "tld": ".fr"},
+    "CA": {"gl": "ca", "hl": "en", "tld": ".ca"},
+    "ES": {"gl": "es", "hl": "es", "tld": ".es"}
+  }
+}

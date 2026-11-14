@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+permissions:
+  contents: read
+
+jobs:
+  go-suite:
+    name: Go Proxy, Health & Bench Suite
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: go
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - name: Run Go Unit Tests
+        run: go test -v -race ./...
+      - name: Cross-Compile Static Executables
+        run: |
+          mkdir -p ../dist
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-s -w" -o ../dist/nimbus2-linux-x86_64 ./cmd/nimbus2
+          GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -ldflags="-s -w" -o ../dist/nimbus2-linux-aarch64 ./cmd/nimbus2
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-s -w" -o ../dist/nimbus2-windows-x86_64.exe ./cmd/nimbus2
+
+  rust-core:
+    name: Rust Core Engine & Crypto Suite
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: crates/nimbus2-core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run Cargo Tests
+        run: cargo test --verbose
+      - name: Build Release Binaries
+        run: cargo build --release
+
+  python-syntax:
+    name: Python Global Proxy Syntax Audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Byte-Compile Verification
+        run: python3 -m compileall -q python/global_proxy platform

@@ -1,0 +1,25 @@
+name: Bug Report
+description: Report a reproducible defect in Nimbus²
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Clear description of the defect.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Nimbus² Version & Target OS/Arch
+      placeholder: "v2.4.0 linux-x86_64"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to Reproduce
+    validations:
+      required: true
