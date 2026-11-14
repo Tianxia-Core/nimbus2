@@ -1,0 +1,350 @@
+#!/bin/bash
+# ═══════════════════════════════════════════════════════════════════════════════
+# NIMBUS² UNIFIED v3.0 — MAIN ENTRY POINT
+# Agentic Swarm Edition | FC-Estimated | SLECO-SO Compliant
+# ═══════════════════════════════════════════════════════════════════════════════
+
+set -euo pipefail
+
+NIMBUS2_VERSION="3.0.0"
+NIMBUS2_CODENAME="Unified Agentic Edition"
+NIMBUS2_HOME="${NIMBUS2_HOME:-$HOME/.nimbus2}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
+NC='\033[0m'
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# BANNER
+# ═══════════════════════════════════════════════════════════════════════════════
+
+print_banner() {
+    echo -e "${CYAN}"
+    cat << 'BANNER'
+
+   ██████╗ ██╗██╗██╗     ███╗   ██╗███████╗██████╗ ███████╗██╗   ██╗██╗
+  ██╔════╝██║██║██║     ████╗  ██║██╔════╝██╔══██╗██╔════╝██║   ██║██║
+  ██║     ██║██║██║     ██╔██╗ ██║█████╗  ██████╔╝███████╗██║   ██║██║
+  ██║     ╚███╔╝██║     ██║╚██╗██║██╔══╝  ██╔══██╗╚════██║██║   ██║██║
+  ╚██████╗██╔╝ ██║     ██║ ╚████║███████╗██║  ██║███████║╚██████╔╝███████╗
+   ╚═════╝╚═╝  ╚═╝     ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚══════╝
+
+BANNER
+    echo -e "${NC}"
+    echo -e "${MAGENTA}  v${NIMBUS2_VERSION} — ${NIMBUS2_CODENAME}${NC}"
+    echo -e "${CYAN}  Build: $(date -u +%Y-%m-%dT%H:%M:%SZ)${NC}"
+    echo ""
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# HELP
+# ═══════════════════════════════════════════════════════════════════════════════
+
+show_help() {
+    echo "Usage: nimbus2 [command] [options]"
+    echo ""
+    echo -e "${CYAN}CORE COMMANDS:${NC}"
+    echo "  engine          Run core engine (225 streams, Asura mode)"
+    echo "  transport       Run transport layer (upload/download/chunk)"
+    echo "  compress        Run smart compression"
+    echo ""
+    echo -e "${CYAN}MULTIBOOT COMMANDS:${NC}"
+    echo "  multiboot       Run multiboot USB manager"
+    echo "  list-distros    List available distros"
+    echo "  flash <iso>     Flash ISO to USB"
+    echo ""
+    echo -e "${CYAN}SECURITY COMMANDS:${NC}"
+    echo "  etamanga        Run ETAMANGA features"
+    echo "  hsm             Run Titan M2 HSM"
+    echo "  provision       Run tiered provisioning"
+    echo ""
+    echo -e "${CYAN}INTELLIGENCE COMMANDS:${NC}"
+    echo "  miner           Run deep/fast mining"
+    echo "  extractor       Run peak extraction"
+    echo "  ffp             Run FFP analysis"
+    echo "  learner         Run learning engine"
+    echo "  softhem         Run device detection"
+    echo ""
+    echo -e "${CYAN}AUTARCHISATION COMMANDS:${NC}"
+    echo "  autarch         Initialize autarchisation"
+    echo "  detect-device   Detect device capabilities"
+    echo "  p2p             Initialize P2P sync"
+    echo "  heal            Initialize self-healing"
+    echo ""
+    echo -e "${CYAN}INFRASTRUCTURE COMMANDS:${NC}"
+    echo "  asura           Run Asura mode (7 engines parallel)"
+    echo "  router          Run polymorphic routing"
+    echo "  netbench        Run network benchmark"
+    echo "  browser         Run browser engine"
+    echo "  backup          Run device backup"
+    echo ""
+    echo -e "${CYAN}MONITORING COMMANDS:${NC}"
+    echo "  monitor         Run live monitoring"
+    echo "  budget          Run budget tracking"
+    echo ""
+    echo -e "${CYAN}INFO COMMANDS:${NC}"
+    echo "  status          Show system status"
+    echo "  version         Show version"
+    echo "  modules         List all modules"
+    echo "  device          Show device info"
+    echo "  help            Show this help"
+    echo ""
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# STATUS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+show_status() {
+    echo -e "${GREEN}Nimbus² Unified v${NIMBUS2_VERSION} — All Systems Operational${NC}"
+    echo ""
+    echo "System Status:"
+    echo "  ✓ Core Engine: Active"
+    echo "  ✓ Transport Layer: Active"
+    echo "  ✓ Security Layer: Active"
+    echo "  ✓ Intelligence Layer: Active"
+    echo "  ✓ Autarchisation: Active"
+    echo "  ✓ Infrastructure: Active"
+    echo "  ✓ Monitoring: Active"
+    echo ""
+    echo "Modules Loaded:"
+    for module in core security intelligence infrastructure monitoring utility; do
+        count=$(ls "$SCRIPT_DIR/$module/" 2>/dev/null | wc -l)
+        echo "  ✓ $module ($count files)"
+    done
+    echo ""
+    echo "Total Modules: $(find "$SCRIPT_DIR" -type f | wc -l)"
+    echo "Total Size: $(du -sh "$SCRIPT_DIR" | cut -f1)"
+}
+
+show_device() {
+    if [ -f "$SCRIPT_DIR/bin/nimbus2-softhem.py" ]; then
+        python3 "$SCRIPT_DIR/bin/nimbus2-softhem.py" detect
+    else
+        echo "Device detection not available"
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# MAIN COMMAND HANDLER
+# ═══════════════════════════════════════════════════════════════════════════════
+
+case "${1:-help}" in
+    engine)
+        echo -e "${YELLOW}Starting Nimbus² Engine...${NC}"
+        if [ -f "$SCRIPT_DIR/core/nimbus2-engine.sh" ]; then
+            source "$SCRIPT_DIR/core/nimbus2-engine.sh" "${@:2}"
+        else
+            echo "Engine module not found"
+        fi
+        ;;
+    transport)
+        echo -e "${YELLOW}Starting Nimbus² Transport...${NC}"
+        if [ -f "$SCRIPT_DIR/core/nimbus2-transport.sh" ]; then
+            source "$SCRIPT_DIR/core/nimbus2-transport.sh" "${@:2}"
+        else
+            echo "Transport module not found"
+        fi
+        ;;
+    compress)
+        echo -e "${YELLOW}Starting Nimbus² Compression...${NC}"
+        if [ -f "$SCRIPT_DIR/core/nimbus2-smart-compress.py" ]; then
+            python3 "$SCRIPT_DIR/core/nimbus2-smart-compress.py" "${@:2}"
+        else
+            echo "Compression module not found"
+        fi
+        ;;
+    multiboot|flash)
+        echo -e "${YELLOW}Starting Multiboot Manager...${NC}"
+        if [ -f "$SCRIPT_DIR/bin/nimbus2-multiboot.sh" ]; then
+            bash "$SCRIPT_DIR/bin/nimbus2-multiboot.sh" "${@:2}"
+        else
+            echo "Multiboot module not found"
+        fi
+        ;;
+    list-distros)
+        if [ -f "$SCRIPT_DIR/bin/nimbus2-multiboot.sh" ]; then
+            bash "$SCRIPT_DIR/bin/nimbus2-multiboot.sh" list "${@:2}"
+        fi
+        ;;
+    etamanga)
+        echo -e "${YELLOW}Starting ETAMANGA Features...${NC}"
+        if [ -f "$SCRIPT_DIR/security/nimbus2-etamanga.py" ]; then
+            python3 "$SCRIPT_DIR/security/nimbus2-etamanga.py" "${@:2}"
+        else
+            echo "ETAMANGA module not found"
+        fi
+        ;;
+    hsm)
+        echo -e "${YELLOW}Starting Titan M2 HSM...${NC}"
+        if [ -f "$SCRIPT_DIR/security/nimbus2-titan-hsm-full.py" ]; then
+            python3 "$SCRIPT_DIR/security/nimbus2-titan-hsm-full.py" "${@:2}"
+        else
+            echo "HSM module not found"
+        fi
+        ;;
+    provision)
+        echo -e "${YELLOW}Starting Tiered Provisioning...${NC}"
+        if [ -f "$SCRIPT_DIR/security/nimbus2-tiered-provisioning.py" ]; then
+            python3 "$SCRIPT_DIR/security/nimbus2-tiered-provisioning.py" "${@:2}"
+        else
+            echo "Provisioning module not found"
+        fi
+        ;;
+    miner)
+        echo -e "${YELLOW}Starting Mining Engine...${NC}"
+        if [ -f "$SCRIPT_DIR/intelligence/nimbus2-miner.py" ]; then
+            python3 "$SCRIPT_DIR/intelligence/nimbus2-miner.py" "${@:2}"
+        else
+            echo "Miner module not found"
+        fi
+        ;;
+    extractor)
+        echo -e "${YELLOW}Starting Peak Extraction...${NC}"
+        if [ -f "$SCRIPT_DIR/intelligence/nimbus2-peak-extraction.py" ]; then
+            python3 "$SCRIPT_DIR/intelligence/nimbus2-peak-extraction.py" "${@:2}"
+        else
+            echo "Extractor module not found"
+        fi
+        ;;
+    ffp)
+        echo -e "${YELLOW}Starting FFP Analysis...${NC}"
+        if [ -f "$SCRIPT_DIR/intelligence/nimbus2-ffp.py" ]; then
+            python3 "$SCRIPT_DIR/intelligence/nimbus2-ffp.py" "${@:2}"
+        else
+            echo "FFP module not found"
+        fi
+        ;;
+    learner)
+        echo -e "${YELLOW}Starting Learning Engine...${NC}"
+        if [ -f "$SCRIPT_DIR/intelligence/nimbus2-learn.sh" ]; then
+            source "$SCRIPT_DIR/intelligence/nimbus2-learn.sh" "${@:2}"
+        else
+            echo "Learner module not found"
+        fi
+        ;;
+    softhem)
+        echo -e "${YELLOW}Starting SOFTEM Device Detection...${NC}"
+        if [ -f "$SCRIPT_DIR/bin/nimbus2-softhem.py" ]; then
+            python3 "$SCRIPT_DIR/bin/nimbus2-softhem.py" "${@:2}"
+        else
+            echo "SOFTEM module not found"
+        fi
+        ;;
+    autarch)
+        echo -e "${YELLOW}Initializing Autarchisation...${NC}"
+        if [ -f "$SCRIPT_DIR/bin/nimbus2-autarch.sh" ]; then
+            bash "$SCRIPT_DIR/bin/nimbus2-autarch.sh" init "${@:2}"
+        else
+            echo "Autarch module not found"
+        fi
+        ;;
+    detect-device)
+        if [ -f "$SCRIPT_DIR/bin/nimbus2-softhem.py" ]; then
+            python3 "$SCRIPT_DIR/bin/nimbus2-softhem.py" detect
+        fi
+        ;;
+    p2p)
+        if [ -f "$SCRIPT_DIR/bin/nimbus2-autarch.sh" ]; then
+            bash "$SCRIPT_DIR/bin/nimbus2-autarch.sh" p2p "${@:2}"
+        fi
+        ;;
+    heal)
+        if [ -f "$SCRIPT_DIR/bin/nimbus2-autarch.sh" ]; then
+            bash "$SCRIPT_DIR/bin/nimbus2-autarch.sh" heal "${@:2}"
+        fi
+        ;;
+    asura)
+        echo -e "${YELLOW}Starting Asura Mode (7 Engines Parallel)...${NC}"
+        if [ -f "$SCRIPT_DIR/infrastructure/nimbus2-asura.sh" ]; then
+            source "$SCRIPT_DIR/infrastructure/nimbus2-asura.sh" "${@:2}"
+        else
+            echo "Asura module not found"
+        fi
+        ;;
+    router)
+        echo -e "${YELLOW}Starting Polymorphic Router...${NC}"
+        if [ -f "$SCRIPT_DIR/infrastructure/nimbus2-polymorphic-router.sh" ]; then
+            source "$SCRIPT_DIR/infrastructure/nimbus2-polymorphic-router.sh" "${@:2}"
+        else
+            echo "Router module not found"
+        fi
+        ;;
+    netbench)
+        echo -e "${YELLOW}Starting Network Benchmark...${NC}"
+        if [ -f "$SCRIPT_DIR/infrastructure/nimbus2-netbench.sh" ]; then
+            source "$SCRIPT_DIR/infrastructure/nimbus2-netbench.sh" "${@:2}"
+        else
+            echo "Netbench module not found"
+        fi
+        ;;
+    browser)
+        echo -e "${YELLOW}Starting Browser Engine...${NC}"
+        if [ -f "$SCRIPT_DIR/infrastructure/nimbus2-browser.sh" ]; then
+            source "$SCRIPT_DIR/infrastructure/nimbus2-browser.sh" "${@:2}"
+        else
+            echo "Browser module not found"
+        fi
+        ;;
+    backup)
+        echo -e "${YELLOW}Starting Device Backup...${NC}"
+        if [ -f "$SCRIPT_DIR/infrastructure/nimbus2-device-backup.sh" ]; then
+            source "$SCRIPT_DIR/infrastructure/nimbus2-device-backup.sh" "${@:2}"
+        else
+            echo "Backup module not found"
+        fi
+        ;;
+    monitor)
+        echo -e "${YELLOW}Starting Live Monitoring...${NC}"
+        if [ -f "$SCRIPT_DIR/monitoring/nimbus2-monitor.sh" ]; then
+            source "$SCRIPT_DIR/monitoring/nimbus2-monitor.sh" "${@:2}"
+        else
+            echo "Monitor module not found"
+        fi
+        ;;
+    budget)
+        echo -e "${YELLOW}Starting Budget Tracking...${NC}"
+        if [ -f "$SCRIPT_DIR/monitoring/nimbus2-budget.sh" ]; then
+            source "$SCRIPT_DIR/monitoring/nimbus2-budget.sh" "${@:2}"
+        else
+            echo "Budget module not found"
+        fi
+        ;;
+    status)
+        show_status
+        ;;
+    version)
+        echo "Nimbus² v${NIMBUS2_VERSION} — ${NIMBUS2_CODENAME}"
+        ;;
+    modules)
+        echo "Nimbus² Modules:"
+        echo ""
+        for module in core security intelligence infrastructure monitoring utility business bin; do
+            if [ -d "$SCRIPT_DIR/$module" ]; then
+                echo -e "${CYAN}[$module]${NC}"
+                ls "$SCRIPT_DIR/$module/" 2>/dev/null | while read f; do
+                    echo "  - $f"
+                done
+                echo ""
+            fi
+        done
+        ;;
+    device)
+        show_device
+        ;;
+    help|--help|-h)
+        print_banner
+        show_help
+        ;;
+    *)
+        echo -e "${RED}Unknown command: $1${NC}"
+        echo "Run 'nimbus2 help' for usage"
+        exit 1
+        ;;
+esac

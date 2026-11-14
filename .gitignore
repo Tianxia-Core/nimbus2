@@ -1,0 +1,34 @@
+# Rust / Cargo
+target/
+**/target/
+
+# Go
+bin/
+dist/
+*.exe
+*.out
+*.test
+
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# Secrets & Keys
+*.pem
+!RELEASE_SIGNING_KEY.pub.pem
+*.key
+*.keystore
+*.jks
+.env
+.env.*
+!.env.example
+
+# OS / Editor
+.DS_Store
+*.swp
+*~
