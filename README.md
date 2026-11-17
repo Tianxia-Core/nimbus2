@@ -10,8 +10,30 @@
 
 **Nimbus²** is the unified polyglot network proxy, route benchmarking, ASN validation, and cryptographic multiboot verification suite maintained by **RASA-X-MACHINA** *(Proposed Estonian Deep-Tech Entity — Tallinn, Estonia)*.
 
+<!-- BUILD_LAW_SHOWCASE_START -->
+
 ---
 
+## 🌍 In Plain English — What `nimbus2` Is & Why It Matters (Layman's Guide)
+
+- **The Everyday Problem:** Distributed servers and edge devices drop connections when routes degrade, ISP paths shift, or background daemons hang silently.
+- **How It Works (Without the Jargon):** `nimbus²` supervises multi-node mesh links, validates network ASN routes, benchmarks latency paths in real time, and shifts traffic cleanly before users notice a stall.
+- **Why It Is Different:** Ships as Ed25519-signed multi-OS binaries (`.deb`, `.rpm`, `.AppImage`, `flake.nix`, `.exe`) built under **[Build Law](https://github.com/Tianxia-Core/Build-Law)** (`Apache-2.0`).
+- **How It Benefits You:** Platform and SRE teams get resilient cross-region connectivity and instant route diagnostics in a single lightweight binary.
+- **How to Install & Use It in 60 Seconds:** Install directly from **[nimbus2 Releases](https://github.com/Tianxia-Core/nimbus2/releases/latest)** or via `nix run github:Tianxia-Core/nimbus2`.
+
+---
+
+## 🏛️ Governed by [`Build Law`](https://github.com/Tianxia-Core/Build-Law) — Engineering Philosophy & Stakeholder Pathways
+
+This repository is a live production showcase of **[`Build Law`](https://github.com/Tianxia-Core/Build-Law)**—the open-source (`MIT`) **4-Pillar, 14-Gate Constitutional Engineering & `5.0×–8.8×` Token-Efficiency Standard** created by **[Collins Takem](https://rasaxmachina.com/collins)** (**RASA-X-MACHINA**):
+- **Developers & AI Builders:** Drop **[`Build Law`](https://github.com/Tianxia-Core/Build-Law)** into Claude Code, Cursor, OpenCode, VS Code (`.vsix`), GitHub Copilot, Windsurf, Cline, Aider, or any chat LLM in 60 seconds.
+- **CTOs & B2B Engineering Leaders:** Need similar `Rust`/`Go`/`Nix`/Security/FinOps rigor applied to your infrastructure? Scope a fixed-price **72-Hour `VRTTI` Architecture Sprint** at **[vrtti.rasaxmachina.com](https://vrtti.rasaxmachina.com)**.
+- **Investors, Researchers, Press & Executive Hiring Committees:** Inspect our cryptographic release proofs across **[`@Tianxia-Core`](https://github.com/Tianxia-Core)**, press assets at **[rasaxmachina.com/press](https://rasaxmachina.com/press)**, and founder dossier at **[rasaxmachina.com/collins](https://rasaxmachina.com/collins)**.
+
+<!-- BUILD_LAW_SHOWCASE_END -->
+
+---
 ## Consolidated Architecture & Attribution
 
 `Tianxia-Core/nimbus2` consolidates five previously split repositories into one cohesive, zero-stub polyglot monorepo:
