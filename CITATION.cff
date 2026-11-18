@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use Nimbus² in engineering, DevSecOps, or systems research, please cite it as below."
+title: "Nimbus²: Sovereign Executive Build Manager, 14-Gate Differential PR Reviewer, Clean-Room Sanitizer & Polyglot Proxy Suite"
+version: "2.6.0"
+date-released: "2026-11-18"
+license: "MPL-2.0"
+url: "https://github.com/Tianxia-Core/nimbus2"
+authors:
+  - family-names: "Takem"
+    given-names: "Collins"
+    affiliation: "RASA-X-MACHINA"

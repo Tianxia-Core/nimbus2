@@ -1,6 +1,6 @@
 // ffp: FFP-NIMBUS2-CLI concurrent-daemon go
-// Nimbus² v2.5.0 — High-Performance Concurrent Proxy, Health Probe, Route Benchmark,
-// Config Validator, SOFTEM Hardware Classifier, Multiboot Verifier & Interactive TUI.
+// Nimbus² v2.6.0 — Unified Sovereign Build Manager, Autonomous Commit & 14-Gate PR Review Engine,
+// Clean-Room Edition Firewall, FC Algebraic Build Estimator, Polyglot Proxy, Route Benchmark & TUI.
 // Zero external dependencies (Go stdlib only, CGO_ENABLED=0 static builds).
 package main
 
@@ -30,7 +30,7 @@ import (
 	"time"
 )
 
-const Version = "2.5.0"
+const Version = "2.6.0"
 
 // ProxyConfig defines validated configuration for the Nimbus² proxy daemon.
 type ProxyConfig struct {
@@ -550,15 +550,20 @@ func truncateStr(s string, max int) string {
 }
 
 func printUsage() {
-	fmt.Fprintf(os.Stderr, `Nimbus² v%s — High-Performance Polyglot Proxy, Intelligence & Multiboot Suite
+	fmt.Fprintf(os.Stderr, `Nimbus² v%s — Sovereign Executive Build Manager, Autonomous PR Reviewer, Proxy & Multiboot Suite
 Usage:
-  nimbus2 proxy    [--listen 127.0.0.1:8080] [--streams 225] [--timeout 15]
-  nimbus2 health   [--targets https://rasaxmachina.com] [--timeout 10] [--json]
-  nimbus2 bench    [--target 127.0.0.1:8080] [--concurrency 16] [--requests 100] [--json]
-  nimbus2 validate --config path/to/config.json [--json]
-  nimbus2 detect   [--json]
-  nimbus2 multiboot [--catalog | --verify path/to/image.iso]
-  nimbus2 tui      [--once] [--target 127.0.0.1:8080]
+  nimbus2 ship        [--repo-dir .] [--message "..."] [--branch "..."] [--no-pr] [--execute] [--json]
+  nimbus2 review-diff [--repo-dir .] [--base HEAD~1] [--head HEAD] [--stdin] [--json]
+  nimbus2 cleanroom   [--mode audit|init] [--dir ./sovereign-workspace] [--json]
+  nimbus2 init-clean  [target-dir]
+  nimbus2 estimate    --fc 250 [--agents 15] [--io 100] [--net 20] [--restore 0] [--build-law] [--json]
+  nimbus2 proxy       [--listen 127.0.0.1:8080] [--streams 225] [--timeout 15]
+  nimbus2 health      [--targets https://rasaxmachina.com] [--timeout 10] [--json]
+  nimbus2 bench       [--target 127.0.0.1:8080] [--concurrency 16] [--requests 100] [--json]
+  nimbus2 validate    --config path/to/config.json [--json]
+  nimbus2 detect      [--json]
+  nimbus2 multiboot   [--catalog | --verify path/to/image.iso]
+  nimbus2 tui         [--once] [--target 127.0.0.1:8080]
   nimbus2 version
 `, Version)
 }
@@ -768,6 +773,137 @@ func main() {
 					}
 				}
 			}
+		}
+
+	case "ship":
+		fs := flag.NewFlagSet("ship", flag.ExitOnError)
+		repoDir := fs.String("repo-dir", ".", "Git repository directory")
+		msg := fs.String("message", "", "Optional Conventional Commit headline")
+		branch := fs.String("branch", "", "Optional target branch name")
+		noPR := fs.Bool("no-pr", false, "Commit and push without creating a GitHub PR")
+		execute := fs.Bool("execute", false, "Execute branch/commit/push/PR (default is dry-run preview)")
+		asJSON := fs.Bool("json", true, "Emit structured JSON output")
+		_ = fs.Parse(args)
+
+		plan := SmartShipRepo(*repoDir, *msg, *branch, *execute, !*noPR)
+		if *asJSON {
+			enc := json.NewEncoder(os.Stdout)
+			enc.SetIndent("", "  ")
+			_ = enc.Encode(plan)
+		} else {
+			fmt.Printf("[nimbus2 ship] ok=%v files=%d branch=%s pr=%s\n", plan.OK, plan.FilesCount, plan.ProposedBranch, plan.PRURL)
+		}
+		if !plan.OK {
+			os.Exit(1)
+		}
+
+	case "review-diff", "review":
+		fs := flag.NewFlagSet("review-diff", flag.ExitOnError)
+		repoDir := fs.String("repo-dir", ".", "Git repository directory")
+		baseRef := fs.String("base", "HEAD~1", "Base git ref")
+		headRef := fs.String("head", "HEAD", "Head git ref")
+		fromStdin := fs.Bool("stdin", false, "Read unified diff from stdin")
+		asJSON := fs.Bool("json", true, "Emit structured JSON report")
+		_ = fs.Parse(args)
+
+		var diffTxt string
+		var changed []string
+		if *fromStdin {
+			raw, _ := io.ReadAll(os.Stdin)
+			diffTxt = string(raw)
+		} else {
+			dOut, _, _ := runGitCmd(*repoDir, "diff", *baseRef+"..."+*headRef)
+			if dOut == "" {
+				dOut, _, _ = runGitCmd(*repoDir, "diff", *baseRef, *headRef)
+			}
+			diffTxt = dOut
+			nOut, _, _ := runGitCmd(*repoDir, "diff", "--name-only", *baseRef, *headRef)
+			for _, ln := range strings.Split(strings.TrimSpace(nOut), "\n") {
+				if strings.TrimSpace(ln) != "" {
+					changed = append(changed, strings.TrimSpace(ln))
+				}
+			}
+		}
+		rep := ReviewDiffText(diffTxt, changed)
+		if *asJSON {
+			enc := json.NewEncoder(os.Stdout)
+			enc.SetIndent("", "  ")
+			_ = enc.Encode(rep)
+		} else {
+			fmt.Printf("[nimbus2 review-diff] verdict=%s risk=%s findings=%d tokens=0\n", rep.Verdict, rep.RiskTier, len(rep.Findings))
+		}
+		if !rep.CanAutoMerge {
+			os.Exit(1)
+		}
+
+	case "cleanroom", "init-clean":
+		defaultMode := "audit"
+		if cmd == "init-clean" {
+			defaultMode = "init"
+		}
+		fs := flag.NewFlagSet(cmd, flag.ExitOnError)
+		mode := fs.String("mode", defaultMode, "Mode: audit (verify zero internal PII/DB leaks) or init (bootstrap clean user seed)")
+		dir := fs.String("dir", ".", "Target workspace or repository directory")
+		asJSON := fs.Bool("json", true, "Emit structured JSON output")
+		_ = fs.Parse(args)
+		if cmd == "init-clean" && *dir == "." && fs.NArg() > 0 {
+			*dir = fs.Arg(0)
+		} else if cmd == "init-clean" && *dir == "." {
+			*dir = "./sovereign-workspace"
+		}
+
+		var rep CleanroomReport
+		var err error
+		if *mode == "init" {
+			rep, err = InitCleanSeedWorkspace(*dir)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "[nimbus2 cleanroom] init error: %v\n", err)
+				os.Exit(1)
+			}
+		} else {
+			rep = AuditCleanroomDirectory(*dir)
+		}
+		if *asJSON {
+			enc := json.NewEncoder(os.Stdout)
+			enc.SetIndent("", "  ")
+			_ = enc.Encode(rep)
+		} else {
+			fmt.Printf("[nimbus2 cleanroom] edition=%s ok=%v root=%s violations=%d\n", rep.Edition, rep.OK, rep.Root, len(rep.Violations))
+		}
+		if !rep.OK {
+			os.Exit(1)
+		}
+
+	case "estimate", "fc-estimate":
+		fs := flag.NewFlagSet("estimate", flag.ExitOnError)
+		fc := fs.Float64("fc", 64, "Function-Feature Pair (FFP / Function) count")
+		agents := fs.Float64("agents", 15, "Parallel autonomous worker/agent count")
+		ioOps := fs.Float64("io", 40, "Expected file I/O operations")
+		netReqs := fs.Float64("net", 10, "Expected external network/API requests")
+		restores := fs.Float64("restore", 0, "Expected state/checkpoint restoration events")
+		buildLaw := fs.Bool("build-law", true, "Apply Build Law SLECO-SO++ & 8.8x Vāk System-0 token compression")
+		asJSON := fs.Bool("json", false, "Emit structured JSON output")
+		_ = fs.Parse(args)
+
+		est := ComputeFCEstimate(FCEstimateInput{
+			FunctionCount:   *fc,
+			ParallelAgents:  *agents,
+			FileIOOps:       *ioOps,
+			NetworkRequests: *netReqs,
+			Restorations:    *restores,
+			BuildLawActive:  *buildLaw,
+		})
+		if *asJSON {
+			enc := json.NewEncoder(os.Stdout)
+			enc.SetIndent("", "  ")
+			_ = enc.Encode(est)
+		} else {
+			fmt.Printf("┌── Nimbus² × FC Algebraic Build Estimator (%s · %.1f%% Validated Accuracy) ──┐\n", est.FormulaVersion, est.ValidatedCalibrationAccPct)
+			fmt.Printf("  FFPs / Functions     : %.0f  (Recommended isolated services <= 8 FFPs: %d)\n", est.FunctionCount, est.RecommendedServicesMax8FFP)
+			fmt.Printf("  Human Baseline       : %.1f senior-engineer hours\n", est.HumanBaselineHours)
+			fmt.Printf("  Autonomous Wall Time : %.2f min (%.1f sec | %.1fx wall-clock speedup)\n", est.AutonomousActiveMinutes, est.AutonomousActiveSeconds, est.WallClockSpeedupFactor)
+			fmt.Printf("  Token Footprint      : %d tokens (vs %d raw | %.1fx compression)\n", est.BuildLawTokensEst, est.UncompressedTokensEst, est.TokenCompressionRatio)
+			fmt.Printf("  Estimated API Spend  : EUR %.2f (vs EUR %.2f raw | Net Saved: EUR %.2f)\n", est.BuildLawCostEUR, est.UncompressedCostEUR, est.NetSavingsEUR)
 		}
 
 	default:
